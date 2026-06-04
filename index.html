@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris Lettenmaier | Software Engineer &amp; AI Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Epilogue:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #07080d;
+  --bg2:      #0c0e15;
+  --bg3:      #11131d;
+  --card:     #141720;
+  --card-h:   #181c28;
+  --border:   #1c1f2e;
+  --border2:  #252840;
+  --gold:     #c8a84b;
+  --gold-lt:  #e6c86a;
+  --gold-d:   rgba(200,168,75,0.12);
+  --blue:     #4a9eff;
+  --blue-d:   rgba(74,158,255,0.08);
+  --green:    #3ecf8e;
+  --txt:      #eef0f8;
+  --txt2:     #888ba6;
+  --txt3:     #44475a;
+  --ff-head:  'Playfair Display', Georgia, serif;
+  --ff-body:  'Epilogue', sans-serif;
+  --ff-mono:  'JetBrains Mono', monospace;
+  --r:        12px;
+  --r-lg:     20px;
+  --max:      1160px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+
+body {
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--txt);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a  { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+/* ─── subtle grain overlay ─── */
+body::after {
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:9999;
+  opacity:.6;
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  border-bottom: 1px solid transparent;
+  transition: background .4s, border-color .4s, backdrop-filter .4s;
+}
+nav.stuck {
+  background: rgba(7,8,13,.88);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom-color: var(--border);
+}
+.nav-logo {
+  font-family: var(--ff-head);
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: -.02em;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a {
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--txt2);
+  position: relative;
+  transition: color .25s;
+}
+.nav-links a::after {
+  content:'';
+  position:absolute;
+  bottom:-3px; left:0;
+  width:0; height:1px;
+  background:var(--gold);
+  transition:width .3s;
+}
+.nav-links a:hover { color: var(--txt); }
+.nav-links a:hover::after { width:100%; }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  align-items: center;
+  gap: 60px;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 100px 48px 60px;
+  position: relative;
+}
+
+/* radial glow behind photo */
+#hero::before {
+  content:'';
+  position:absolute;
+  right:0; top:50%;
+  transform:translateY(-50%);
+  width:600px; height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,168,75,.055) 0%,transparent 68%);
+  pointer-events:none;
+}
+
+.hero-content { position:relative; z-index:1; }
+
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--ff-mono);
+  font-size:.7rem;
+  color:var(--gold);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+  animation:fadeUp .9s ease both;
+}
+.eyebrow::before { content:''; width:28px; height:1px; background:var(--gold); }
+.dot-live {
+  display:inline-block;
+  width:7px; height:7px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:4px;
+  animation:pulse 2s infinite;
+}
+
+h1.hero-name {
+  font-family:var(--ff-head);
+  font-size:clamp(3rem,6.5vw,5.8rem);
+  font-weight:900;
+  line-height:1.0;
+  letter-spacing:-.035em;
+  margin-bottom:14px;
+  animation:fadeUp .9s .12s ease both;
+}
+h1.hero-name em { font-style:italic; color:var(--gold); }
+
+.hero-role {
+  font-size:1.05rem;
+  font-weight:300;
+  color:var(--txt2);
+  letter-spacing:.04em;
+  margin-bottom:28px;
+  animation:fadeUp .9s .22s ease both;
+}
+
+.hero-blurb {
+  font-size:.97rem;
+  color:var(--txt2);
+  max-width:430px;
+  line-height:1.85;
+  margin-bottom:44px;
+  animation:fadeUp .9s .32s ease both;
+}
+
+.hero-cta {
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  animation:fadeUp .9s .42s ease both;
+}
+
+/* ─── buttons ─── */
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:13px 26px;
+  border-radius:7px;
+  font-family:var(--ff-body);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  transition:all .28s ease;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.btn svg { width:15px; height:15px; flex-shrink:0; }
+
+.btn-gold {
+  background:var(--gold);
+  color:#07080d;
+}
+.btn-gold:hover {
+  background:var(--gold-lt);
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(200,168,75,.28);
+}
+.btn-ghost {
+  background:transparent;
+  color:var(--txt);
+  border:1px solid var(--border2);
+}
+.btn-ghost:hover {
+  border-color:var(--gold);
+  color:var(--gold);
+  transform:translateY(-2px);
+}
+
+/* ─── hero photo ─── */
+.hero-photo-wrap {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  animation:fadeIn 1.2s .2s ease both;
+}
+
+.photo-outer {
+  position:relative;
+  width:380px;
+  height:460px;
+}
+/* gradient border ring */
+.photo-outer::before {
+  content:'';
+  position:absolute;
+  inset:-2px;
+  border-radius:var(--r-lg);
+  background:linear-gradient(140deg,var(--gold) 0%,transparent 55%,var(--blue) 100%);
+  z-index:0;
+}
+/* offset ghost box */
+.photo-outer::after {
+  content:'';
+  position:absolute;
+  top:18px; right:-18px;
+  width:100%; height:100%;
+  border:1px solid var(--border2);
+  border-radius:var(--r-lg);
+  z-index:-1;
+}
+.photo-inner {
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  z-index:1;
+  background:var(--card);
+}
+.photo-inner img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+
+.photo-badge {
+  position:absolute;
+  bottom:-18px;
+  left:-18px;
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:11px;
+  padding:14px 18px;
+  z-index:3;
+  backdrop-filter:blur(12px);
+}
+.badge-label {
+  font-family:var(--ff-mono);
+  font-size:.6rem;
+  color:var(--txt3);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin-bottom:4px;
+}
+.badge-val {
+  font-size:.82rem;
+  font-weight:600;
+  color:var(--green);
+}
+
+/* ═══════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════ */
+.section-wrap {
+  max-width:var(--max);
+  margin:0 auto;
+  padding:96px 48px;
+}
+.section-wrap.alt-bg {
+  max-width:100%;
+  padding:0;
+  background:var(--bg2);
+}
+.section-wrap.alt-bg .inner {
+  max-width:var(--max);
+  margin:0 auto;
+  padding:96px 48px;
+}
+
+.full-divider {
+  width:100%;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--border2) 30%,var(--border2) 70%,transparent);
+}
+
+.sec-tag {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--ff-mono);
+  font-size:.68rem;
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.22em;
+  margin-bottom:14px;
+}
+.sec-tag::before { content:'//'; opacity:.5; }
+
+.sec-title {
+  font-family:var(--ff-head);
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.15;
+}
+.sec-sub {
+  margin-top:14px;
+  color:var(--txt2);
+  font-size:.97rem;
+  max-width:540px;
+  line-height:1.85;
+}
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+.about-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+.about-text p {
+  font-size:.97rem;
+  color:var(--txt2);
+  line-height:1.9;
+  margin-bottom:18px;
+}
+.about-text p strong { color:var(--txt); font-weight:600; }
+
+.stat-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.stat-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:26px 22px;
+  transition:border-color .3s;
+}
+.stat-card:hover { border-color:rgba(200,168,75,.3); }
+.stat-num {
+  font-family:var(--ff-head);
+  font-size:2.6rem;
+  font-weight:900;
+  color:var(--gold);
+  line-height:1;
+  margin-bottom:6px;
+}
+.stat-lbl {
+  font-size:.72rem;
+  color:var(--txt3);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+/* ═══════════════════════════════════════
+   SKILLS
+═══════════════════════════════════════ */
+.skills-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(138px,1fr));
+  gap:10px;
+}
+.skill-pill {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px 14px;
+  font-family:var(--ff-mono);
+  font-size:.75rem;
+  color:var(--txt2);
+  text-align:center;
+  transition:all .28s ease;
+  cursor:default;
+}
+.skill-pill:hover {
+  border-color:var(--gold);
+  color:var(--gold);
+  background:var(--gold-d);
+  transform:translateY(-2px);
+}
+
+/* ═══════════════════════════════════════
+   PROJECTS
+═══════════════════════════════════════ */
+.projects-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+}
+.proj-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:36px 32px;
+  transition:all .35s ease;
+  position:relative;
+  overflow:hidden;
+}
+.proj-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background:linear-gradient(to right,var(--gold),transparent);
+  opacity:0;
+  transition:opacity .35s;
+}
+.proj-card:hover {
+  border-color:var(--border2);
+  background:var(--card-h);
+  transform:translateY(-5px);
+  box-shadow:0 24px 64px rgba(0,0,0,.45);
+}
+.proj-card:hover::before { opacity:1; }
+
+.proj-num {
+  font-family:var(--ff-mono);
+  font-size:.65rem;
+  color:var(--txt3);
+  letter-spacing:.1em;
+  margin-bottom:20px;
+}
+.proj-name {
+  font-family:var(--ff-head);
+  font-size:1.45rem;
+  font-weight:700;
+  color:var(--txt);
+  margin-bottom:12px;
+  letter-spacing:-.01em;
+}
+.proj-desc {
+  font-size:.88rem;
+  color:var(--txt2);
+  line-height:1.85;
+  margin-bottom:24px;
+}
+.tag-row { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:24px; }
+.tag {
+  font-family:var(--ff-mono);
+  font-size:.67rem;
+  padding:4px 10px;
+  border-radius:4px;
+  background:var(--blue-d);
+  color:var(--blue);
+  border:1px solid rgba(74,158,255,.18);
+}
+.proj-link {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.75rem;
+  font-weight:600;
+  color:var(--gold);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  transition:gap .25s;
+}
+.proj-link:hover { gap:11px; }
+.proj-link svg { width:14px; height:14px; }
+
+/* ═══════════════════════════════════════
+   EDUCATION
+═══════════════════════════════════════ */
+.edu-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:48px 44px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:40px;
+}
+.edu-card::after {
+  content:'';
+  position:absolute;
+  top:-100px; right:-80px;
+  width:280px; height:280px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,168,75,.07),transparent 70%);
+  pointer-events:none;
+}
+.edu-degree {
+  font-family:var(--ff-head);
+  font-size:1.9rem;
+  font-weight:700;
+  margin-bottom:8px;
+  letter-spacing:-.02em;
+}
+.edu-school {
+  font-size:1.05rem;
+  color:var(--txt2);
+  margin-bottom:20px;
+}
+.edu-honors {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(130deg,rgba(200,168,75,.14),rgba(200,168,75,.05));
+  border:1px solid rgba(200,168,75,.3);
+  border-radius:6px;
+  padding:8px 16px;
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--gold);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  margin-bottom:36px;
+}
+
+.cw-label {
+  font-family:var(--ff-mono);
+  font-size:.66rem;
+  color:var(--txt3);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  margin-bottom:14px;
+}
+.cw-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:9px;
+}
+.cw-item {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:.86rem;
+  color:var(--txt2);
+  padding:10px 13px;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition:all .25s;
+}
+.cw-item:hover { color:var(--txt); border-color:var(--border2); }
+.cw-item::before { content:'▹'; color:var(--gold); font-size:.72rem; flex-shrink:0; }
+
+/* ═══════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════ */
+#contact {
+  text-align:center;
+  padding:120px 48px;
+  position:relative;
+  overflow:hidden;
+}
+#contact::before {
+  content:'';
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:700px; height:700px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,168,75,.04),transparent 65%);
+  pointer-events:none;
+}
+.contact-inner { max-width:620px; margin:0 auto; position:relative; }
+.contact-title {
+  font-family:var(--ff-head);
+  font-size:clamp(2.4rem,5.5vw,4.2rem);
+  font-weight:900;
+  letter-spacing:-.035em;
+  margin:16px 0 18px;
+  line-height:1.08;
+}
+.contact-title em { font-style:italic; color:var(--gold); }
+.contact-sub {
+  color:var(--txt2);
+  font-size:.97rem;
+  line-height:1.85;
+  margin-bottom:48px;
+}
+.contact-btns { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  border-top:1px solid var(--border);
+  padding:36px 48px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  max-width:100%;
+}
+.footer-left { font-size:.78rem; color:var(--txt3); }
+.footer-right {
+  font-family:var(--ff-mono);
+  font-size:.65rem;
+  color:var(--txt3);
+  letter-spacing:.08em;
+}
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(26px); }
+  to   { opacity:1; transform:none; }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes pulse {
+  0%,100%{ opacity:1; transform:scale(1); }
+  50%    { opacity:.55; transform:scale(.75); }
+}
+
+/* scroll-reveal */
+.reveal {
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .75s ease, transform .75s ease;
+}
+.reveal.on { opacity:1; transform:none; }
+.reveal.delay-1 { transition-delay:.1s; }
+.reveal.delay-2 { transition-delay:.2s; }
+.reveal.delay-3 { transition-delay:.3s; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width:960px) {
+  nav { padding:0 28px; }
+  .nav-links { display:none; }
+
+  #hero {
+    grid-template-columns:1fr;
+    padding:110px 28px 60px;
+    gap:56px;
+    text-align:center;
+  }
+  .hero-content { order:2; }
+  .hero-photo-wrap { order:1; }
+  .eyebrow { justify-content:center; }
+  .hero-blurb { margin:0 auto 44px; }
+  .hero-cta { justify-content:center; }
+  .photo-outer { width:260px; height:315px; }
+  .photo-outer::after { display:none; }
+
+  .about-grid { grid-template-columns:1fr; gap:48px; }
+  .projects-grid { grid-template-columns:1fr; }
+  .section-wrap { padding:72px 28px; }
+  .section-wrap.alt-bg .inner { padding:72px 28px; }
+  .edu-card { padding:32px 24px; }
+  #contact { padding:80px 28px; }
+  footer { flex-direction:column; gap:10px; text-align:center; padding:28px; }
+}
+@media (max-width:560px) {
+  .stat-grid { grid-template-columns:1fr 1fr; }
+  .cw-grid { grid-template-columns:1fr; }
+  .contact-btns { flex-direction:column; align-items:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <div class="nav-logo">Chris <span>L.</span></div>
+  <nav class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+
+  <div class="hero-content">
+    <div class="eyebrow"><span class="dot-live"></span> Available for Remote Contracts</div>
+    <h1 class="hero-name">Chris<br><em>Lettenmaier</em></h1>
+    <p class="hero-role">Software Engineer &amp; AI Specialist</p>
+    <p class="hero-blurb">
+      Turning complex engineering challenges into clean, scalable solutions.
+      I specialize in full-stack development, applied AI, and system architecture—
+      ready to plug in and ship from day one.
+    </p>
+    <div class="hero-cta">
+      <!-- Replace href values with actual profile URLs -->
+      <a href="https://www.linkedin.com/in/lettenmaier/" target="_blank" class="btn btn-gold">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/lettenmaier" target="_blank" class="btn btn-ghost">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://app.joinhandshake.com/profiles/lettenmaier" target="_blank" class="btn btn-ghost">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+        Handshake
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-photo-wrap">
+    <div class="photo-outer">
+      <div class="photo-inner">
+        <img src="HeadshotChatGPT.png" alt="Chris Lettenmaier — Software Engineer &amp; AI Specialist">
+      </div>
+      <div class="photo-badge">
+        <div class="badge-label">Status</div>
+        <div class="badge-val"><span class="dot-live"></span>&nbsp;Open to Contracts</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="full-divider"></div>
+
+<!-- ─── ABOUT ─── -->
+<div class="section-wrap alt-bg" id="about">
+  <div class="inner">
+    <div class="about-grid">
+
+      <div class="reveal">
+        <div class="sec-tag">About Me</div>
+        <h2 class="sec-title">The Engineer<br>Behind the Code</h2>
+        <div style="margin-top:32px;">
+          <p>
+            I'm a <strong>results-driven software engineer</strong> with a foundation built on academic excellence and a mindset forged through relentless self-improvement. I hold a BS in Computer Science from Texas A&amp;M University – Central Texas, where I graduated <strong>Summa Cum Laude</strong>—a reflection of the same discipline and precision I bring to every professional engagement.
+          </p>
+          <p>
+            My work sits at the intersection of <strong>systems architecture, full-stack development, and applied artificial intelligence</strong>. I thrive when solving hard problems that genuinely matter: designing airtight database schemas, optimizing critical algorithms, or evaluating how frontier LLMs perform under real-world production conditions.
+          </p>
+          <p>
+            When I'm not untangling code or analyzing network protocols, I recharge by diving deep into fitness and hypertrophy research, logging time in the gym, and taking long walks with my German Shepherd. Quality time with my family keeps me grounded—and I won't pretend the occasional Fortnite match doesn't help me decompress and sharpen competitive instincts.
+          </p>
+          <p>
+            I believe the <strong>best engineers are well-rounded humans</strong>: curious, communicative, and constantly growing. That's the version of myself I bring to every team, every client, every contract.
+          </p>
+        </div>
+      </div>
+
+      <div class="stat-grid reveal delay-2">
+        <div class="stat-card">
+          <div class="stat-num">4.0</div>
+          <div class="stat-lbl">GPA · Summa Cum Laude</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">AI</div>
+          <div class="stat-lbl">Specialist Focus Area</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-lbl">Remote-Ready & Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-lbl">Curiosity. Always.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- ─── SKILLS ─── -->
+<div class="section-wrap" id="skills">
+  <div class="reveal">
+    <div class="sec-tag">Technical Toolkit</div>
+    <h2 class="sec-title">Languages &amp; Technologies</h2>
+    <p class="sec-sub">A curated stack built through rigorous coursework, hands-on projects, and real-world engineering challenges.</p>
+  </div>
+  <div class="skills-grid reveal delay-1" style="margin-top:48px;">
+    <div class="skill-pill">Python</div>
+    <div class="skill-pill">C++</div>
+    <div class="skill-pill">PHP</div>
+    <div class="skill-pill">HTML / CSS</div>
+    <div class="skill-pill">JavaScript</div>
+    <div class="skill-pill">GDScript</div>
+    <div class="skill-pill">SQL</div>
+    <div class="skill-pill">Linux / Unix</div>
+    <div class="skill-pill">Git &amp; GitHub</div>
+    <div class="skill-pill">REST APIs</div>
+    <div class="skill-pill">MySQL</div>
+    <div class="skill-pill">Godot Engine</div>
+    <div class="skill-pill">LLM Evaluation</div>
+    <div class="skill-pill">Networking</div>
+    <div class="skill-pill">Cybersecurity</div>
+    <div class="skill-pill">Data Visualization</div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- ─── PROJECTS ─── -->
+<div class="section-wrap alt-bg" id="projects">
+  <div class="inner">
+    <div class="reveal">
+      <div class="sec-tag">Selected Work</div>
+      <h2 class="sec-title">Projects &amp; Repositories</h2>
+      <p class="sec-sub">A selection of technical work spanning game systems, AI evaluation frameworks, and health-technology applications.</p>
+    </div>
+
+    <div class="projects-grid" style="margin-top:52px;">
+
+      <div class="proj-card reveal">
+        <div class="proj-num">01 &nbsp;/&nbsp; GitHub Repository</div>
+        <h3 class="proj-name">Godot4 Modular FSM</h3>
+        <p class="proj-desc">
+          A clean-architecture finite state machine framework built in GDScript for Godot 4. Designed with modularity as the guiding principle, this project decouples state transitions entirely from game objects—keeping codebases readable, testable, and scalable as complexity compounds. A direct application of classical computer science theory to real-time, interactive systems.
+        </p>
+        <div class="tag-row">
+          <span class="tag">GDScript</span>
+          <span class="tag">Godot 4</span>
+          <span class="tag">Game Dev</span>
+          <span class="tag">Design Patterns</span>
+          <span class="tag">FSM Architecture</span>
+        </div>
+        <a href="https://github.com/lettenmaier/Godot4-Modular-FSM" target="_blank" class="proj-link">
+          View on GitHub
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="proj-card reveal delay-1">
+        <div class="proj-num">02 &nbsp;/&nbsp; GitHub Repository</div>
+        <h3 class="proj-name">Consumer AI Matrix</h3>
+        <p class="proj-desc">
+          A front-end web application that systematically evaluates and compares consumer-level large language models across defined benchmarks and capability dimensions. This project reflects a deep, current understanding of the AI landscape and the ability to translate nuanced model behaviors into structured, accessible data for both technical and non-technical audiences.
+        </p>
+        <div class="tag-row">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">LLM Evaluation</span>
+          <span class="tag">AI Research</span>
+        </div>
+        <a href="https://github.com/lettenmaier/Consumer-AI-Matrix" target="_blank" class="proj-link">
+          View on GitHub
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="proj-card reveal delay-1">
+        <div class="proj-num">03 &nbsp;/&nbsp; GitHub Repository</div>
+        <h3 class="proj-name">FitTrackHub</h3>
+        <p class="proj-desc">
+          A full-featured fitness tracking web application combining PHP and HTML with a normalized relational database backend. FitTrackHub handles complex data structures—workout logs, progress metrics, user profiles—with a focus on clean UI design and sound database architecture. A demonstration of backend engineering paired with purposeful, user-centric interface design.
+        </p>
+        <div class="tag-row">
+          <span class="tag">PHP</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Database Design</span>
+          <span class="tag">UI / UX</span>
+        </div>
+        <a href="https://github.com/lettenmaier/FitTrackHub" target="_blank" class="proj-link">
+          View on GitHub
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="proj-card reveal delay-2">
+        <div class="proj-num">04 &nbsp;/&nbsp; GitHub Repository</div>
+        <h3 class="proj-name">Max Stax</h3>
+        <p class="proj-desc">
+          A high-energy, single-file HTML fitness app centered around a muscular gym bro mascot—because training data doesn't have to be boring. Max Stax takes the full-body training split concept and wraps it in a bold, personality-driven UI, proving that great front-end engineering and a sharp sense of brand identity aren't mutually exclusive. All layout, logic, and embedded assets packed into one lean 767-line file.
+        </p>
+        <div class="tag-row">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">UI Design</span>
+          <span class="tag">Character / Mascot</span>
+          <span class="tag">Health Tech</span>
+        </div>
+        <a href="https://github.com/lettenmaier/max-stax" target="_blank" class="proj-link">
+          View on GitHub
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- ─── EDUCATION ─── -->
+<div class="section-wrap" id="education">
+  <div class="reveal">
+    <div class="sec-tag">Academic Background</div>
+    <h2 class="sec-title">Education &amp; Coursework</h2>
+  </div>
+
+  <div style="margin-top:52px;">
+    <div class="edu-card reveal">
+      <h3 class="edu-degree">Bachelor of Science in Computer Science</h3>
+      <p class="edu-school">Texas A&amp;M University – Central Texas</p>
+      <div class="edu-honors">★ &nbsp; Graduated Summa Cum Laude</div>
+
+      <div class="cw-label">Completed Coursework</div>
+      <div class="cw-grid">
+        <div class="cw-item">Computer Architecture</div>
+        <div class="cw-item">Data Structures</div>
+        <div class="cw-item">Operating Systems</div>
+        <div class="cw-item">Database Theory &amp; Practice</div>
+        <div class="cw-item">Analysis of Algorithms</div>
+        <div class="cw-item">IT Security &amp; Risk Management</div>
+        <div class="cw-item">Computer Networks</div>
+        <div class="cw-item">Software Engineering for E-Business</div>
+        <div class="cw-item">C++ Programming</div>
+        <div class="cw-item">Linear Algebra</div>
+        <div class="cw-item">Data Visualization</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <div class="sec-tag" style="justify-content:center;">Let's Work Together</div>
+    <h2 class="contact-title">Ready to Build<br><em>Something Great?</em></h2>
+    <p class="contact-sub">
+      I'm actively seeking high-impact remote contracts in software engineering and AI.
+      Whether you need a full-stack developer, an AI integration specialist, or a
+      technical collaborator who communicates clearly and ships reliably—I'm your person.
+    </p>
+    <div class="contact-btns">
+      <a href="https://www.linkedin.com/in/lettenmaier/" target="_blank" class="btn btn-gold">Connect on LinkedIn</a>
+      <a href="https://github.com/lettenmaier" target="_blank" class="btn btn-ghost">Browse GitHub</a>
+      <a href="https://app.joinhandshake.com/profiles/lettenmaier" target="_blank" class="btn btn-ghost">Find Me on Handshake</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-left">&copy; 2025 Chris Lettenmaier. All rights reserved.</div>
+  <div class="footer-right">chris.lettenmaier &nbsp;//&nbsp; software engineer &amp; ai specialist</div>
+</footer>
+
+<script>
+// sticky nav
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('stuck', window.scrollY > 36);
+});
+
+// scroll-reveal
+const els = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('on');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
